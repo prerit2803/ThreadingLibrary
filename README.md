@@ -48,11 +48,3 @@ Now, running the program:
 ```
 gcc -Wall <example_to_run>.c libmyth.a -o <example_executable>
 ```
-## Additional Info:
-Use a FIFO (first-in, first-out) scheduling policy for threads on the ready queue.
-
-This library does not have to be thread-safe and will only execute in a single-threaded (OS) process. Assume that an internal thread operation cannot be interrupted by another thread operation. (E.g., MyThreadExit will not be interrupted by MyThreadYield.) That means that the library does not have to acquire locks to protect the internal data of the thread library. (A user may still have to acquire semaphores to protect user data.)
-
-The interface only allows one parameter (a void *) to be passed to a MyThread. This is sufficient. One can build wrapper functions that pack and unpack an arbitrary parameter list into an object pointed to by a void *. This program gives an example of that. It is not a complete program—some of the logic is absent. It is only provided to illustrate how to use the interface.
-
-Allocate at least 8KB for each thread stack.
