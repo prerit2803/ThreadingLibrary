@@ -32,13 +32,24 @@ The following routine may be executed only by the Unix process.
 ### void MyThreadInit (void(*start_funct)(void *), void *args)
 This routine is called before any other MyThread call. It is invoked only by the Unix process. It is similar to invoking MyThreadCreate immediately followed by MyThreadJoinAll. The MyThread created is the oldest ancestor of all MyThreads—it is the “main” MyThread. This routine can only be invoked once. It returns when there are no threads available to run (i.e., the thread ready queue is empty. 
 
-## Additional Info:
-Use a FIFO (first-in, first-out) scheduling policy for threads on the ready queue.
-    Make all the routines available via a library. Use the ar command to make a library. It will be used similar to this:
+## Invocation
+
+Clone or Download the repositry, Run the Makefile:
 ```
-ar rcs mythread.a file1.o file2.o file3.o 
+Make
+```
+Makefile is designed in such a way that it will create the sufficient files required to make the program work.
+Make all the routines available via a library. Use the ar command to make a library. It will be used similar to this:
+```
+ar rc libmyth.a file1.o file2.o file3.o 
 ```
 All programs that use this library will include a header file (mythread.h) that defines all the interfaces and data structures that are needed—but no more.
+Now, running the program:
+```
+gcc -Wall <example_to_run>.c libmyth.a -o <example_executable>
+```
+## Additional Info:
+Use a FIFO (first-in, first-out) scheduling policy for threads on the ready queue.
 
 This library does not have to be thread-safe and will only execute in a single-threaded (OS) process. Assume that an internal thread operation cannot be interrupted by another thread operation. (E.g., MyThreadExit will not be interrupted by MyThreadYield.) That means that the library does not have to acquire locks to protect the internal data of the thread library. (A user may still have to acquire semaphores to protect user data.)
 
